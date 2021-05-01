@@ -1,9 +1,30 @@
 <template>
-<div v-if ="res"> 
-  <h1>{{res.titles.normalized}}</h1>
-  <span>{{res.description}}</span>
-  <img v-bind:src="res.thumbnail.source"/>
+<div v-if ="items"> 
+<div v-for="(item, index) in items">
+<div>
+<h3>
+<a v-bind:href="item.content_urls.desktop.page">{{ index + 1  }}. {{ item.titles.normalized }} </a>
+</h3>
+</div>
+<div>
+{{ item.description }}
+</div>
+<div>
+ <img :src="item.thumbnail"/>
+</div>
+</div>
+<!-- 
+
+  <li v-for="item in items" :key="item">
+   {{ items.mostread }} -->
+    <!-- {{ items.displaytitle }}  -->
+<!-- {{ items.description }} -->
+    <!-- {{ items.tfa.mostread}} -->
+    
+  </li>
+  
   </div>
+  
 </template>
 
 <script>
@@ -12,20 +33,28 @@ export default {
   name: 'HelloWorld',
     data () {
     return {
-      res: null,
       loading: true,
-      errored: false
+      errored: false,
+       items:[],
+       thumbnail:[],
+      //  year: 2021,
+      //  month: 04,
+      //  day: 29
     }
+    
   },
   props: {
     msg: String
   },
 mounted () {
     axios
-      .get('https://en.wikipedia.org/api/rest_v1/page/summary/Tartu')
+      .get('https://en.wikipedia.org/api/rest_v1/feed/featured/2021/04/30')
       .then(response => {
         console.log (response.data)
-        this.res = response.data
+        this.items = response.data.mostread.articles
+         this.thumbnail = response.data.mostread.articles.thumbnail
+         console.log("olen siin")
+         console.log(this.thumbnail)
       })
       .catch(error => {
         console.log(error)
