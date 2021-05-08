@@ -77,14 +77,7 @@
  <img :src="item.thumbnail.source"/>
 </div>
 </div>
-<!-- 
-
-  <li v-for="item in items" :key="item">
-   {{ items.mostread }} -->
-    <!-- {{ items.displaytitle }}  -->
-<!-- {{ items.description }} -->
-    <!-- {{ items.tfa.mostread}} -->
-    
+   
   </li>
   
   </div>
@@ -105,14 +98,12 @@ export default {
       month: null,
       day: null,
       date: null,
-      link: "",
     }
       },
   
   props: {
     msg: String
   },
-
  
   methods:{
 dateFormat() {
@@ -132,9 +123,6 @@ dateFormat() {
           date = year + "/0" + month + "/0" + day
     }
     this.date = date
-    let newLink = "https://en.wikipedia.org/api/rest_v1/feed/featured/" + date
-
-    this.link = newLink
     axios
   
       .get("https://en.wikipedia.org/api/rest_v1/feed/featured/" + date)
