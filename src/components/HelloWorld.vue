@@ -21,8 +21,8 @@
           <input
           v-model="year"
           placeholder ="Year"
-          :min = "2000"
-          :max = "2022"
+          :min = "2018"
+          :max = "2021"
           type="number"
           class="mt-1 block w-full border-gray p-1"/>
         </col>
@@ -115,18 +115,6 @@ export default {
 
  
   methods:{
-// dateFormat (){
-// let year = this.year
-//  let month = this.month
-//  let day = this.day
-
-//  let date = year + "/" + month +"/" + day
- 
-
-//  console.log(this.year)
-//  console.log(this.month)
-//  console.log(this.day) 
-
 dateFormat() {
     let day = this.day;
     let month = this.month;
@@ -147,46 +135,28 @@ dateFormat() {
     let newLink = "https://en.wikipedia.org/api/rest_v1/feed/featured/" + date
 
     this.link = newLink
-  console.log(newLink)
-   console.log(this.link)
+    axios
+  
+      .get("https://en.wikipedia.org/api/rest_v1/feed/featured/" + date)
+      .then(response => {
+        this.items = response.data.mostread.articles
+        this.thumbnail = response.data.mostread.articles.thumbnail
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
       }
     },
-  // if (month <10){
-  //   date = year + "/0" + month + "/" + day
-  //   console.log("väiksem kui 10")
-    
-  // }else{
-    
-  //     console.log("suurem kui 10")
-  // }
-
-  //  if (day <10){
-  //     date = year + "/0" + month + "/0" + day
-  //   console.log("väiksem kui 10")
-
-  //   let newLink = "https://en.wikipedia.org/api/rest_v1/feed/featured/" + date,
   
-  //  console.log(newLink)
-  // }else{
-  //     console.log("suurem kui 10")
-//   }else
-//   this.date = date
-// console.log(link)
-// console.log(date)
-//   //  console.log(this.date) 
-
-// }
-
 mounted () {
     axios
   
       .get('https://en.wikipedia.org/api/rest_v1/feed/featured/2021/04/30')
       .then(response => {
-        console.log (response.data)
         this.items = response.data.mostread.articles
         this.thumbnail = response.data.mostread.articles.thumbnail
-         console.log("olen siin")
-         console.log(this.thumbnail)
       })
       .catch(error => {
         console.log(error)
