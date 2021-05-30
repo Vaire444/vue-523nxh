@@ -86,6 +86,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 export default {
   name: 'HelloWorld',
     data () {
@@ -98,6 +99,7 @@ export default {
       month: null,
       day: null,
       date: null,
+      yesterday: new Date(Date.now() - 1000*60*60*24).toISOString().slice(0,10),
     }
       },
   
@@ -126,6 +128,7 @@ dateFormat() {
     axios
   
       .get("https://en.wikipedia.org/api/rest_v1/feed/featured/" + date)
+      console.log(this.yesterday)
       .then(response => {
         this.items = response.data.mostread.articles
         this.thumbnail = response.data.mostread.articles.thumbnail
@@ -141,7 +144,7 @@ dateFormat() {
 mounted () {
     axios
   
-      .get('https://en.wikipedia.org/api/rest_v1/feed/featured/2021/04/30')
+      .get('https://en.wikipedia.org/api/rest_v1/feed/featured/'+ moment(this.yesterday).add(1, 'days').format('YYYY/MM/DD'))
       .then(response => {
         this.items = response.data.mostread.articles
         this.thumbnail = response.data.mostread.articles.thumbnail
