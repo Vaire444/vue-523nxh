@@ -128,8 +128,7 @@ dateFormat() {
     axios
   
       .get("https://en.wikipedia.org/api/rest_v1/feed/featured/" + date)
-      console.log(this.yesterday)
-      .then(response => {
+       .then(response => {
         this.items = response.data.mostread.articles
         this.thumbnail = response.data.mostread.articles.thumbnail
       })
